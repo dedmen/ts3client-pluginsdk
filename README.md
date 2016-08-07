@@ -19,4 +19,3 @@ For more information, please refer to the following pages:
 ## Copyright
 
 Copyright &copy; TeamSpeak Systems GmbH. All rights reserved.
-All trademarks referenced herein are the properties of their respective owners.
