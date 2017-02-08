@@ -1150,18 +1150,18 @@ void ts3plugin_onHotkeyRecordedEvent(const char* keyword, const char* key) {
 // This function receives your key Identifier you send to notifyKeyEvent and should return
 // the friendly device name of the device this hotkey originates from. Used for display in UI.
 const char* ts3plugin_keyDeviceName(const char* keyIdentifier) {
-	return nullptr;
+	return NULL;
 }
 
 // This function translates the given key identifier to a friendly key name for display in the UI
 const char* ts3plugin_displayKeyText(const char* keyIdentifier) {
-	return nullptr;
+	return NULL;
 }
 
 // This is used internally as a prefix for hotkeys so we can store them without collisions.
 // Should be unique across plugins.
 const char* ts3plugin_keyPrefix() {
-	return nullptr;
+	return NULL;
 }
 
 /* Called when client custom nickname changed */
