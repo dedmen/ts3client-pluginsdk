@@ -1,7 +1,7 @@
 /*
  * TeamSpeak 3 demo plugin
  *
- * Copyright (c) 2008-2016 TeamSpeak Systems GmbH
+ * Copyright (c) 2008-2017 TeamSpeak Systems GmbH
  */
 
 #ifdef _WIN32
@@ -30,7 +30,7 @@ static struct TS3Functions ts3Functions;
 #define _strcpy(dest, destSize, src) { strncpy(dest, src, destSize-1); (dest)[destSize-1] = '\0'; }
 #endif
 
-#define PLUGIN_API_VERSION 21
+#define PLUGIN_API_VERSION 22
 
 #define PATH_BUFSIZE 512
 #define COMMAND_BUFSIZE 128
@@ -188,12 +188,29 @@ const char* ts3plugin_commandKeyword() {
 	return "test";
 }
 
+static void print_and_free_bookmarks_list(struct PluginBookmarkList* list)
+{
+    int i;
+    for (i = 0; i < list->itemcount; ++i) {
+        if (list->items[i].isFolder) {
+            printf("Folder: name=%s\n", list->items[i].name);
+            print_and_free_bookmarks_list(list->items[i].folder);
+            ts3Functions.freeMemory(list->items[i].name);
+        } else {
+            printf("Bookmark: name=%s uuid=%s\n", list->items[i].name, list->items[i].uuid);
+            ts3Functions.freeMemory(list->items[i].name);
+            ts3Functions.freeMemory(list->items[i].uuid);
+        }
+    }
+    ts3Functions.freeMemory(list);
+}
+
 /* Plugin processes console command. Return 0 if plugin handled the command, 1 if not handled. */
 int ts3plugin_processCommand(uint64 serverConnectionHandlerID, const char* command) {
 	char buf[COMMAND_BUFSIZE];
 	char *s, *param1 = NULL, *param2 = NULL;
 	int i = 0;
-	enum { CMD_NONE = 0, CMD_JOIN, CMD_COMMAND, CMD_SERVERINFO, CMD_CHANNELINFO, CMD_AVATAR, CMD_ENABLEMENU, CMD_SUBSCRIBE, CMD_UNSUBSCRIBE, CMD_SUBSCRIBEALL, CMD_UNSUBSCRIBEALL } cmd = CMD_NONE;
+	enum { CMD_NONE = 0, CMD_JOIN, CMD_COMMAND, CMD_SERVERINFO, CMD_CHANNELINFO, CMD_AVATAR, CMD_ENABLEMENU, CMD_SUBSCRIBE, CMD_UNSUBSCRIBE, CMD_SUBSCRIBEALL, CMD_UNSUBSCRIBEALL, CMD_BOOKMARKSLIST } cmd = CMD_NONE;
 #ifdef _WIN32
 	char* context = NULL;
 #endif
@@ -228,7 +245,9 @@ int ts3plugin_processCommand(uint64 serverConnectionHandlerID, const char* comma
 				cmd = CMD_SUBSCRIBEALL;
 			} else if(!strcmp(s, "unsubscribeall")) {
 				cmd = CMD_UNSUBSCRIBEALL;
-			}
+            } else if (!strcmp(s, "bookmarkslist")) {
+                cmd = CMD_BOOKMARKSLIST;
+            }
 		} else if(i == 1) {
 			param1 = s;
 		} else {
@@ -413,6 +432,17 @@ int ts3plugin_processCommand(uint64 serverConnectionHandlerID, const char* comma
 			}
 			break;
 		}
+        case CMD_BOOKMARKSLIST: {  /* test bookmarkslist */
+            struct PluginBookmarkList* list;
+            unsigned int error = ts3Functions.getBookmarkList(&list);
+            if (error == ERROR_ok) {
+                print_and_free_bookmarks_list(list);
+            }
+            else {
+                ts3Functions.logMessage("Error getting bookmarks list", LogLevel_ERROR, "Plugin", serverConnectionHandlerID);
+            }
+            break;
+        }
 	}
 
 	return 0;  /* Plugin handled command */
@@ -1115,6 +1145,23 @@ void ts3plugin_onHotkeyEvent(const char* keyword) {
 
 /* Called when recording a hotkey has finished after calling ts3Functions.requestHotkeyInputDialog */
 void ts3plugin_onHotkeyRecordedEvent(const char* keyword, const char* key) {
+}
+
+// This function receives your key Identifier you send to notifyKeyEvent and should return
+// the friendly device name of the device this hotkey originates from. Used for display in UI.
+const char* ts3plugin_keyDeviceName(const char* keyIdentifier) {
+	return nullptr;
+}
+
+// This function translates the given key identifier to a friendly key name for display in the UI
+const char* ts3plugin_displayKeyText(const char* keyIdentifier) {
+	return nullptr;
+}
+
+// This is used internally as a prefix for hotkeys so we can store them without collisions.
+// Should be unique across plugins.
+const char* ts3plugin_keyPrefix() {
+	return nullptr;
 }
 
 /* Called when client custom nickname changed */
