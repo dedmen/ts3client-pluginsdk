@@ -1,4 +1,4 @@
-<img src="https://www.teamspeak.com/assets/logos/teamspeak.png" alt="Swift logo" height="80">
+<img src="http://www.teamspeak.com/assets/images/logos/teamspeak.png" alt="TeamSpeak" height="80">
 # TeamSpeak 3 Client Plugin SDK
 
 [![Build Status](https://travis-ci.org/svenpaulsen/ts3client-pluginsdk.svg?branch=master)](https://travis-ci.org/svenpaulsen/ts3client-pluginsdk)
