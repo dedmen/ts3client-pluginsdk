@@ -1,4 +1,5 @@
 <img src="http://www.teamspeak.com/assets/images/logos/teamspeak.png" alt="TeamSpeak" height="80">
+
 # TeamSpeak 3 Client Plugin SDK
 
 [![Build Status](https://travis-ci.org/svenpaulsen/ts3client-pluginsdk.svg?branch=master)](https://travis-ci.org/svenpaulsen/ts3client-pluginsdk)
