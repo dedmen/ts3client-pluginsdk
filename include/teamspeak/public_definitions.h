@@ -149,6 +149,7 @@ enum ClientProperties {
 	CLIENT_VOLUME_MODIFICATOR,              //internal use
 	CLIENT_VERSION_SIGN,					//sign
 	CLIENT_SECURITY_HASH,                   //SDK use, not used by teamspeak. Hash is provided by an outside source. A channel will use the security salt + other client data to calculate a hash, which must be the same as the one provided here.
+    CLIENT_ENCRYPTION_CIPHERS,              //internal use
 	CLIENT_ENDMARKER,
 };
 
@@ -165,6 +166,7 @@ enum VirtualServerProperties {
 	VIRTUALSERVER_CREATED,                           //available when connected, stores the time when the server was created
 	VIRTUALSERVER_UPTIME,                            //only available on request (=> requestServerVariables), the time since the server was started
 	VIRTUALSERVER_CODEC_ENCRYPTION_MODE,             //available and always up-to-date when connected
+    VIRTUALSERVER_ENCRYPTION_CIPHERS,                //internal use
 	VIRTUALSERVER_ENDMARKER,
 };
 
