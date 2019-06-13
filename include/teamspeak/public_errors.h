@@ -12,6 +12,7 @@ enum Ts3ErrorType {
 	ERROR_dont_notify                            = 0x0004,
 	ERROR_lib_time_limit_reached                 = 0x0005,
 	ERROR_out_of_memory                          = 0x0006,
+	ERROR_canceled                               = 0x0007,
 
 	//dunno
 	ERROR_command_not_found                      = 0x0100,

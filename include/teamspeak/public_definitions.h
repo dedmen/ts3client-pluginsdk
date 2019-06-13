@@ -11,10 +11,11 @@
 #define TS3_MAX_SIZE_REASON_MESSAGE 80
 
 //limited length, measured in bytes (utf8 encoded)
-#define TS3_MAX_SIZE_TEXTMESSAGE 1024
+#define TS3_MAX_SIZE_TEXTMESSAGE 8192
 #define TS3_MAX_SIZE_CHANNEL_TOPIC 255
 #define TS3_MAX_SIZE_CHANNEL_DESCRIPTION 8192
 #define TS3_MAX_SIZE_VIRTUALSERVER_WELCOMEMESSAGE 1024
+#define TS3_SIZE_MYTSID 44
 
 //minimum amount of seconds before a clientID that was in use can be assigned to a new client
 #define TS3_MIN_SECONDS_CLIENTID_REUSE 300

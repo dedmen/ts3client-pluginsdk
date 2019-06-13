@@ -1,8 +1,7 @@
 # TeamSpeak 3 Client Plugin SDK
 
-[![Build Status](https://travis-ci.org/svenpaulsen/ts3client-pluginsdk.svg?branch=master)](https://travis-ci.org/svenpaulsen/ts3client-pluginsdk)
-
-This is an unofficial helper repository that contains example code and the SDK header files required to create native plugins for the TeamSpeak 3 Client.
+This is the official helper repository that contains example code and the SDK header files 
+required to create native plugins for the TeamSpeak 3 Client.
 
 ## Getting Started
 

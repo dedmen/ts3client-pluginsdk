@@ -107,6 +107,9 @@ enum CommandLinePropertiesRare {
 	COMMANDLINE_QUERY_SSH_RSA_HOST_KEY,
 	COMMANDLINE_QUERY_TIMEOUT,
 	COMMANDLINE_VERSION,
+	COMMANDLINE_CRASHDUMPSPATH,
+	COMMANDLINE_DAEMON,
+	COMMANDLINE_PID_FILE,
 #endif
 #else
 	COMMANDLINE_NOTHING=0,
@@ -131,6 +134,7 @@ enum ServerInstancePropertiesRare {
 	SERVERINSTANCE_TEMPLATE_CHANNELDEFAULT_GROUP,
 	SERVERINSTANCE_PERMISSIONS_VERSION,
 	SERVERINSTANCE_PENDING_CONNECTIONS_PER_IP,
+	SERVERINSTANCE_SERVERQUERY_MAX_CONNECTIONS_PER_IP,
 	SERVERINSTANCE_ENDMARKER_RARE,
 };
 
@@ -228,8 +232,10 @@ enum ChannelPropertiesRare {
 	CHANNEL_FORCED_SILENCE,                 //Available for all channels that are "in view", always up-to-date
 	CHANNEL_NAME_PHONETIC,                  //Available for all channels that are "in view", always up-to-date
 	CHANNEL_ICON_ID,                        //Available for all channels that are "in view", always up-to-date
-	CHANNEL_FLAG_PRIVATE,                   //Available for all channels that are "in view", always up-to-date
-	CHANNEL_ENDMARKER_RARE
+    CHANNEL_BANNER_GFX_URL,                 //Available for all channels that are "in view", always up-to-date
+    CHANNEL_BANNER_MODE,                    //Available for all channels that are "in view", always up-to-date
+	CHANNEL_ENDMARKER_RARE,
+	CHANNEL_DELETE_DELAY_DEADLINE = 127     //(for clientlibv2) expected delete time in monotonic clock seconds or 0 if nothing is expected
 };
 
 enum ClientPropertiesRare {
@@ -275,7 +281,10 @@ enum ClientPropertiesRare {
     CLIENT_MYTEAMSPEAK_ID,                  //automatically up-to-date for any client "in view", stores myteamspeak id
     CLIENT_INTEGRATIONS,                    //automatically up-to-date for any client "in view", stores integrations
     CLIENT_ACTIVE_INTEGRATIONS_INFO,        //stores info from the myts server and contains the subscription info
+    CLIENT_MYTS_AVATAR,
+    CLIENT_SIGNED_BADGES,
 	CLIENT_ENDMARKER_RARE,
+	CLIENT_HW_ID = 127                      //(for clientlibv2) unique hardware id
 };
 
 enum ConnectionPropertiesRare {
@@ -334,6 +343,14 @@ enum BBCodeTags {
 enum LicenseIssue {
     Blacklisted = 0,
     Greylisted
+};
+
+enum MytsDataUnsetFlags {
+    MytsDataUnsetFlag_None   = 0,
+    MytsDataUnsetFlag_Badges = 1,
+    MytsDataUnsetFlag_Avatar = 1 << 1,
+
+    MytsDataUnsetFlag_All = MytsDataUnsetFlag_Badges | MytsDataUnsetFlag_Avatar // make sure "all" really contains all flags
 };
 
 typedef int(*ExtraBBCodeValidator)(void* userparam, const char* tag, const char* paramValue, int paramValueSize, const char* childValue, int childValueSize);
